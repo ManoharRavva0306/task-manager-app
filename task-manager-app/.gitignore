@@ -1,0 +1,5 @@
+node_modules/
+server/tasks.db
+server/tasks.db-wal
+server/tasks.db-shm
+.env

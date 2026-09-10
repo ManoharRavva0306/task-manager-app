@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Task Manager — Full-Stack App</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✅</text></svg>" />
+</head>
+<body>
+
+  <!-- ===================== AUTH ===================== -->
+  <div class="auth-wrapper" id="authWrapper">
+    <div class="auth-card">
+      <div class="auth-logo"><span>✅</span></div>
+      <h2 id="authFormTitle">Welcome Back</h2>
+      <p class="subtitle" id="authFormSubtitle">Sign in to manage your tasks</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" data-mode="login">Sign In</button>
+        <button class="auth-tab" data-mode="register">Sign Up</button>
+      </div>
+
+      <div class="auth-error" id="authError" style="display:none;"></div>
+
+      <form id="authForm">
+        <div class="form-group" id="nameGroup" style="display:none;">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="John Doe" autocomplete="name" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="current-password" required />
+        </div>
+        <button type="submit" class="btn btn-primary" id="authSubmit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== APP ===================== -->
+  <div class="app" id="app">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo">✅</div>
+        <span>TaskFlow</span>
+      </div>
+      <div class="header-right">
+        <div class="user-info">Hi, <strong id="userName">User</strong></div>
+        <button class="btn btn-secondary" id="btnLogout" style="padding:.5rem 1rem;">Logout</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--primary-light);color:var(--primary);">📋</div>
+          <div class="stat-info"><div class="stat-num" id="statTotal">0</div><div class="stat-label">Total Tasks</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--bg);color:var(--text-light);">⏳</div>
+          <div class="stat-info"><div class="stat-num" id="statPending">0</div><div class="stat-label">Pending</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--warning-light);color:var(--warning);">🔧</div>
+          <div class="stat-info"><div class="stat-num" id="statInProgress">0</div><div class="stat-label">In Progress</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon" style="background:var(--success-light);color:var(--success);">✅</div>
+          <div class="stat-info"><div class="stat-num" id="statCompleted">0</div><div class="stat-label">Completed</div></div>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="toolbar">
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 Search tasks..." />
+        <select class="filter-select" id="filterStatus">
+          <option value="">All Statuses</option>
+          <option value="pending">Pending</option>
+          <option value="in-progress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
+        <select class="filter-select" id="filterPriority">
+          <option value="">All Priorities</option>
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <button class="btn-add" id="btnAdd">＋ Add Task</button>
+      </div>
+
+      <div class="section-title">Your Tasks</div>
+      <div class="task-list" id="taskList"></div>
+    </main>
+  </div>
+
+  <!-- ===================== TASK MODAL ===================== -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal" style="max-width:500px;">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Task</h3>
+        <button class="modal-close" type="button">✕</button>
+      </div>
+      <form id="taskForm">
+        <input type="hidden" id="taskId" />
+        <div class="form-group">
+          <label for="taskTitle">Title</label>
+          <input type="text" id="taskTitle" placeholder="e.g. Finish project report" required />
+        </div>
+        <div class="form-group">
+          <label for="taskDescription">Description</label>
+          <textarea id="taskDescription" rows="3" placeholder="Add details..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="taskStatus">Status</label>
+            <select id="taskStatus">
+              <option value="pending">Pending</option>
+              <option value="in-progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskPriority">Priority</label>
+            <select id="taskPriority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="taskDueDate">Due Date</label>
+          <input type="date" id="taskDueDate" />
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary modal-close">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save Task</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================== TOAST ===================== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
